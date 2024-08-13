@@ -50,7 +50,7 @@ public:
     //// STUDENT CODE
     ////
 
-    void MoveChatbotHere(ChatBot &&chatbot); // Take ownership of the chatbot using move semantics
+    void MoveChatbotHere(ChatBot chatbot);
     // ChatBot* GetChatbotHandle() { return _chatBot.get(); } // Provide access to the raw pointer
 
     ////
