@@ -35,7 +35,8 @@ ChatBot::ChatBot(const ChatBot &source)
 
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    // _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
 
 
     if (source._image)
@@ -50,7 +51,8 @@ ChatBot::ChatBot(ChatBot &&source)
 {
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    // _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _image = source._image;
 
     // Reset source's data members to prevent double deletion
@@ -74,7 +76,8 @@ ChatBot& ChatBot::operator=(const ChatBot &source)
     // Copy data members
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    // _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
 
     if (source._image) {
         _image = new wxBitmap(*source._image); 
@@ -85,7 +88,7 @@ ChatBot& ChatBot::operator=(const ChatBot &source)
     return *this;
 }
 
-ChatBot& ChatBot::operator=(ChatBot &&source) noexcept
+ChatBot& ChatBot::operator=(ChatBot &&source)
 {
 
     if (this == &source) {
@@ -99,7 +102,8 @@ ChatBot& ChatBot::operator=(ChatBot &&source) noexcept
     // Move data members
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    _chatLogic = source._chatLogic;
+    // _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
     _image = source._image;
 
     // Reset source's data members
