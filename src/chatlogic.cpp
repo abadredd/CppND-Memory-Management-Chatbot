@@ -18,11 +18,11 @@ ChatLogic::ChatLogic()
     //// STUDENT CODE
     ////
 
-    // create instance of chatbot
-    _chatBot = new ChatBot("../images/chatbot.png");
+    // // create instance of chatbot
+    // _chatBot = new ChatBot("../images/chatbot.png");
 
-    // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
-    _chatBot->SetChatLogicHandle(this);
+    // // add pointer to chatlogic so that chatbot answers can be passed on to the GUI
+    // _chatBot->SetChatLogicHandle(this);
 
     ////
     //// EOF STUDENT CODE
@@ -33,8 +33,8 @@ ChatLogic::~ChatLogic()
     //// STUDENT CODE
     ////
 
-    // delete chatbot instance
-    delete _chatBot;
+    // // delete chatbot instance
+    // delete _chatBot;
 
     // No need to delete nodes explicitly, unique_ptr handles it
 
@@ -158,7 +158,9 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             auto edge = std::make_unique<GraphEdge>(id);
                             edge->SetChildNode(childNode->get()); // Pass the raw pointer
                             edge->SetParentNode(parentNode->get()); // Pass the raw pointer
-                            (*childNode)->AddEdgeToChildNode(std::move(edge)); // Move ownership
+                            AddAllTokensToElement("KEYWORD", tokens, *edge);
+                            (*childNode)->AddEdgeToParentNode(&(*edge));
+                            (*parentNode)->AddEdgeToChildNode(std::move(edge)); // Move ownership
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *(childNode->get()->GetChildEdgeAtIndex((*childNode)->GetNumberOfChildEdges() - 1)));
@@ -210,13 +212,12 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
     }
 
     // create local ChatBot instance on the stack
-    ChatBot localChatBot("../images/chatbot.png"); 
+    ChatBot localChatBot("../images/chatbot.png");
+    localChatBot.SetChatLogicHandle(this); // this handle to new object
+    localChatBot.SetRootNode(rootNode); // this node to new object
 
     // add chatbot to graph root node using move semantics
     rootNode->MoveChatbotHere(std::move(localChatBot));
-
-    // _chatBot is still used for communication, but doesn't own the instance anymore
-    _chatBot = rootNode->GetChatbotHandle(); 
 
     ////
     //// EOF STUDENT CODE
