@@ -162,12 +162,6 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                             (*childNode)->AddEdgeToParentNode(&(*edge));
                             (*parentNode)->AddEdgeToChildNode(std::move(edge)); // Move ownership
 
-                            // find all keywords for current node
-                            AddAllTokensToElement("KEYWORD", tokens, *(childNode->get()->GetChildEdgeAtIndex((*childNode)->GetNumberOfChildEdges() - 1)));
-
-                            // store reference in parent   
-                            (*parentNode)->AddEdgeToParentNode(childNode->get()->GetChildEdgeAtIndex((*childNode)->GetNumberOfChildEdges() - 1));
-
                         }
 
                         ////
