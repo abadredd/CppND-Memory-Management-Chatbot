@@ -18,7 +18,7 @@ private:
 
     // data handles (owned)
     std::vector<std::unique_ptr<GraphEdge>> _childEdges; // edges to subsequent nodes
-    std::unique_ptr<ChatBot> _chatBot; // Now owns the ChatBot instance
+    ChatBot _chatBot; // Now owns the ChatBot instance
 
     // data handles (not owned)
     std::vector<GraphEdge *> _parentEdges; // edges to preceding nodes 
@@ -51,7 +51,7 @@ public:
     ////
 
     void MoveChatbotHere(ChatBot &&chatbot); // Take ownership of the chatbot using move semantics
-    ChatBot* GetChatbotHandle() { return _chatBot.get(); } // Provide access to the raw pointer
+    // ChatBot* GetChatbotHandle() { return _chatBot.get(); } // Provide access to the raw pointer
 
     ////
     //// EOF STUDENT CODE
