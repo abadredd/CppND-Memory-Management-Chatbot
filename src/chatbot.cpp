@@ -49,10 +49,11 @@ ChatBot::ChatBot(const ChatBot &source)
 
 ChatBot::ChatBot(ChatBot &&source)
 {
+    std::cout << "Move Constructor" << std::endl;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    // _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
+    _chatLogic = source._chatLogic;
+    //_chatLogic->SetChatbotHandle(this);
     _image = source._image;
 
     // Reset source's data members to prevent double deletion
