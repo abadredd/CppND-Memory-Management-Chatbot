@@ -30,22 +30,7 @@ ChatBot::ChatBot(std::string filename)
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
-ChatBot::ChatBot(const ChatBot &source) 
-{
 
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
-    // _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
-
-
-    if (source._image)
- {
-        _image = new wxBitmap(*source._image); // Deep copy the image
-    } else {
-        _image = nullptr;
-    }
-}
 
 ChatBot::ChatBot(ChatBot &&source)
 {
@@ -53,7 +38,7 @@ ChatBot::ChatBot(ChatBot &&source)
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    //_chatLogic->SetChatbotHandle(this);
+    _chatLogic->SetChatbotHandle(this);
     _image = source._image;
 
     // Reset source's data members to prevent double deletion
@@ -63,34 +48,10 @@ ChatBot::ChatBot(ChatBot &&source)
     source._image = nullptr;
 }
 
-ChatBot& ChatBot::operator=(const ChatBot &source)
-{
-
-    if (this == &source) { // Check for self-assignment
-        return *this;
-    }
-
-    // Deallocate existing resources
-    delete _image; 
-    _image = nullptr;
-
-    // Copy data members
-    _currentNode = source._currentNode;
-    _rootNode = source._rootNode;
-    // _chatLogic = source._chatLogic;
-    _chatLogic->SetChatbotHandle(this);
-
-    if (source._image) {
-        _image = new wxBitmap(*source._image); 
-    } else {
-        _image = nullptr;
-    }
-
-    return *this;
-}
-
 ChatBot& ChatBot::operator=(ChatBot &&source)
 {
+
+        std::cout << "Move Assignment Operator" << std::endl;
 
     if (this == &source) {
         return *this;
@@ -103,7 +64,7 @@ ChatBot& ChatBot::operator=(ChatBot &&source)
     // Move data members
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
-    // _chatLogic = source._chatLogic;
+    _chatLogic = source._chatLogic;
     _chatLogic->SetChatbotHandle(this);
     _image = source._image;
 
@@ -115,6 +76,52 @@ ChatBot& ChatBot::operator=(ChatBot &&source)
 
     return *this;
 }
+
+ChatBot::ChatBot(const ChatBot &source) 
+{
+
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+
+
+    if (source._image)
+ {
+        _image = new wxBitmap(*source._image); // Deep copy the image
+    } else {
+        _image = nullptr;
+    }
+}
+
+ChatBot& ChatBot::operator=(const ChatBot &source)
+{
+
+      std::cout << "Copy Constructor " << std::endl;
+
+    if (this == &source) { // Check for self-assignment
+        return *this;
+    }
+
+    // Deallocate existing resources
+    delete _image;
+    _image = nullptr;
+
+    // Copy data members
+    _currentNode = source._currentNode;
+    _rootNode = source._rootNode;
+    _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+
+    if (source._image) {
+        _image = new wxBitmap(*source._image); 
+    } else {
+        _image = nullptr;
+    }
+
+    return *this;
+}
+
 
 
 ChatBot::~ChatBot()
